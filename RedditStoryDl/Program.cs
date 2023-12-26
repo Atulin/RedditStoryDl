@@ -29,6 +29,7 @@ else
         .AddRow("Created:", post.Created.ToString("dd MMMM yyyy, hh:mm"))
         .AddRow("Last edit:", post.Edited.ToString("dd MMMM yyyy, hh:mm"))
         .AddRow(new Markup("Score:"), Markup.FromInterpolated($"[green]\u25b2 {post.Upvotes}[/]  [red]\u25bc {post.Downvotes}[/]  ({post.UpvotePercentage * 100}%)"))
+        .AddRow("Comments:", post.CommentCount.ToString())
         .AddRow("NSFW:", post.IsNsfw ? "yes" : "no");
     table.Columns[0].PadRight(3);
     AnsiConsole.Write(table);

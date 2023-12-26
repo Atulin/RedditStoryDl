@@ -18,9 +18,10 @@ public sealed class RedditClient
 
     public async Task<Post?> GetPost(string url)
     {
+        // TODO: No bueno for AOT and trimming, tracked by #2
         var data = await _client.GetFromJsonAsync<List<JsonElement>>(url);
 
-        var postData = data?[0].Deserialize<Root>();
+        var postData = data?[0].Deserialize(RootJsonContext.Default.Root);
 
         return postData?.Data.Children[0].Post;
     }

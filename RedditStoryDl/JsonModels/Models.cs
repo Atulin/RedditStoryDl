@@ -9,17 +9,29 @@ public sealed class Root
     public required Data Data { get; init; }
 }
 
+[JsonSerializable(typeof(Root))]
+internal partial class RootJsonContext : JsonSerializerContext;
+
+
 public sealed class Data
 {
     [JsonPropertyName("children")]
     public required List<Child> Children { get; init; }
 }
 
+[JsonSerializable(typeof(Data))]
+internal partial class DataJsonContext : JsonSerializerContext;
+
+
 public sealed class Child
 {
     [JsonPropertyName("data")]
     public required Post Post { get; init; }
 }
+
+[JsonSerializable(typeof(Child))]
+internal partial class ChildJsonContext : JsonSerializerContext;
+
 
 public sealed class Post
 {
@@ -59,3 +71,6 @@ public sealed class Post
     [JsonPropertyName("over_18")]
     public required bool IsNsfw { get; init; }
 }
+
+[JsonSerializable(typeof(Post))]
+internal partial class PostJsonContext : JsonSerializerContext;

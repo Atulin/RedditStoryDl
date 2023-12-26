@@ -14,3 +14,4 @@
 ## Known issues
 
 * Currently, works only when the chapter has a link named `[Next]` (case-insensitive). Will not work if it's `Next`, `[Next Chapter]`, or anything else.
+* The executable size could be better with trimming and Native AOT
