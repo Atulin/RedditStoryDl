@@ -1,6 +1,4 @@
-﻿// using Spectre.Console;
-
-namespace RedditStoryDl.Helpers;
+﻿namespace RedditStoryDl.Helpers;
 
 public static class LinkHelper
 {

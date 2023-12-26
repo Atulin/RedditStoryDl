@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using Humanizer;
 using RedditStoryDl.Clients;
 using RedditStoryDl.Helpers;
 using Spectre.Console;
@@ -7,10 +8,8 @@ Console.OutputEncoding = Encoding.UTF8;
 
 var client = new RedditClient(new HttpClient());
 
-Directory.CreateDirectory("./saved");
-
 // https://www.reddit.com/r/NatureofPredators/comments/12ifo9e/persistence_journalism/
-var url = AnsiConsole.Ask<string>("Enter the URL of the first post of the series:").Trim('/');
+var url = AnsiConsole.Ask<string>("[blue]URL of the first post in the series:[/]").Trim('/');
 
 var post = await AnsiConsole.Status()
     .SpinnerStyle(Style.Parse("yellow bold"))
@@ -35,12 +34,17 @@ else
     AnsiConsole.Write(table);
     
     AnsiConsole.Write(new Rule());
+
+    var dir = AnsiConsole.Ask("[blue]Story directory:[/]", $"./{post.Title.Kebaberize()}");
+    Directory.CreateDirectory(DirHelpers.FullPath(dir));
+    
+    AnsiConsole.Write(new Rule());
     
     await AnsiConsole.Status()
         .SpinnerStyle(Style.Parse("yellow bold"))
-        .StartAsync("Saving...", async _ => await File.WriteAllTextAsync($"./saved/{post.Title}-{Random.Shared.Next()}.md", post.Selftext));
+        .StartAsync("Saving...", async _ => await File.WriteAllTextAsync(DirHelpers.GetFilePath(dir, post.Title), post.Selftext));
 
-    string? link = LinkHelper.FindNextLink(post.Selftext);
+    var link = LinkHelper.FindNextLink(post.Selftext);
 
     var index = 2;
     while (link is not null)
@@ -58,8 +62,12 @@ else
         
         await AnsiConsole.Status()
             .SpinnerStyle(Style.Parse("yellow bold"))
-            .StartAsync("Saving...", async _ => await File.WriteAllTextAsync($"./saved/{post.Title}-{Random.Shared.Next()}.md", post.Selftext));
+            .StartAsync("Saving...", async _ => await File.WriteAllTextAsync(DirHelpers.GetFilePath(dir, post.Title), post.Selftext));
+        
+        AnsiConsole.MarkupLineInterpolated($"[bold yellow]Saved[/] [italic]{post.Title}[/][bold yellow]![/]");
         
         link = LinkHelper.FindNextLink(post.Selftext);
     }
 }
+
+AnsiConsole.MarkupLine("[bold yellow]Done![/] :party_popper::party_popper::party_popper:");
