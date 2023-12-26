@@ -10,3 +10,6 @@ tasks:
         cmd: dotnet publish ./RedditStoryDl/RedditStoryDl.csproj -c Release -r {{.ITEM}} -o ./publish/{{.ITEM}}-sc --p:DebugType=none --self-contained true
       - for: { var: RID }
         cmd: dotnet publish ./RedditStoryDl/RedditStoryDl.csproj -c Release -r {{.ITEM}} -o ./publish/{{.ITEM}}-fd --p:DebugType=none --self-contained false
+  pack:
+    cmds:
+      - cmd: py move.py
