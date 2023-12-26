@@ -2,6 +2,13 @@
 
 *Gotta get those Nature of Predators fanfics to my Kindle somehow*
 
+## Releases
+
+[Download](https://github.com/Atulin/RedditStoryDl/releases/latest)
+
+* `-fd` — framework-dependent, you will need .NET 8 Runtime installed, but the file size is smaller
+* `-sc` — self-contained, comes packaged with the Runtime, but the file size is bigger
+
 ## Usage
 
 1. Run the program
